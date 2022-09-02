@@ -1,17 +1,14 @@
 import argparse
+import sys
+
+parser = argparse.ArgumentParser(prog = "list_names")
+parser.add_argument("-path", nargs = 1, type = str, help = "Path to input fastq file")
+
+args = parser.parse_args()
+
+fastq_file_object = open(r"{path}".format(path=args.path[0]), "r")
 
 
-def main():
-    argparser = argparse.ArgumentParser(
-        description="Extract the names from a simple-fastq file")
-    argparser.add_argument(
-        "fastq",
-        type=argparse.FileType('r')
-    )
-    args = argparser.parse_args()
-
-    print(f"Now I need to process the records in {args.fastq}")
-
-
-if __name__ == '__main__':
-    main()
+for i in fastq_file_object:
+	if i[0] == "@":
+		sys.stdout.write(i[1:])
